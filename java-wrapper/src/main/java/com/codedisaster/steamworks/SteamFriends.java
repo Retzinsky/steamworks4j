@@ -93,6 +93,10 @@ public class SteamFriends extends SteamInterface {
 		PersonaChange(int bits) {
 			this.bits = bits;
 		}
+		
+		public boolean isSet(int bitMask) {
+			return PersonaChange.isSet(this, bitMask);
+		}
 
 		static boolean isSet(PersonaChange value, int bitMask) {
 			return (value.bits & bitMask) == value.bits;

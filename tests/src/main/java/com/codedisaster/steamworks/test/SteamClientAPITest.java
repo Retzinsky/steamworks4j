@@ -1,10 +1,39 @@
 package com.codedisaster.steamworks.test;
 
-import com.codedisaster.steamworks.*;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collection;
+
+import com.codedisaster.steamworks.SteamAPICall;
+import com.codedisaster.steamworks.SteamApps;
+import com.codedisaster.steamworks.SteamAuth;
+import com.codedisaster.steamworks.SteamException;
+import com.codedisaster.steamworks.SteamFriends;
+import com.codedisaster.steamworks.SteamFriends.PersonaChange;
+import com.codedisaster.steamworks.SteamFriendsCallback;
+import com.codedisaster.steamworks.SteamID;
+import com.codedisaster.steamworks.SteamLeaderboardEntriesHandle;
+import com.codedisaster.steamworks.SteamLeaderboardEntry;
+import com.codedisaster.steamworks.SteamLeaderboardHandle;
+import com.codedisaster.steamworks.SteamPublishedFileID;
+import com.codedisaster.steamworks.SteamPublishedFileUpdateHandle;
+import com.codedisaster.steamworks.SteamRemoteStorage;
+import com.codedisaster.steamworks.SteamRemoteStorageCallback;
+import com.codedisaster.steamworks.SteamResult;
+import com.codedisaster.steamworks.SteamUGC;
+import com.codedisaster.steamworks.SteamUGCCallback;
+import com.codedisaster.steamworks.SteamUGCDetails;
+import com.codedisaster.steamworks.SteamUGCFileWriteStreamHandle;
+import com.codedisaster.steamworks.SteamUGCHandle;
+import com.codedisaster.steamworks.SteamUGCQuery;
+import com.codedisaster.steamworks.SteamUser;
+import com.codedisaster.steamworks.SteamUserCallback;
+import com.codedisaster.steamworks.SteamUserStats;
+import com.codedisaster.steamworks.SteamUserStatsCallback;
+import com.codedisaster.steamworks.SteamUtils;
+import com.codedisaster.steamworks.SteamUtilsCallback;
 
 public class SteamClientAPITest extends SteamTestApp {
 
@@ -346,21 +375,12 @@ public class SteamClientAPITest extends SteamTestApp {
 		}
 
 		@Override
-		public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {
+		public void onPersonaStateChange(SteamID steamID, int changeFlags) {
 
-			switch (change) {
-
-				case Name:
-					System.out.println("Persona name received: " +
-							"accountID=" + steamID.getAccountID() +
-							", name='" + friends.getFriendPersonaName(steamID) + "'");
-					break;
-
-				default:
-					System.out.println("Persona state changed (unhandled): " +
-							"accountID=" + steamID.getAccountID() +
-							", change=" + change.name());
-					break;
+			if (PersonaChange.Name.isSet(changeFlags)) {
+				System.out.println("Persona name received: " +
+							       "accountID=" + steamID.getAccountID() +
+							       ", name='" + friends.getFriendPersonaName(steamID) + "'");
 			}
 		}
 

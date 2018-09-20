@@ -1,11 +1,15 @@
 package com.codedisaster.steamworks.test.mixin;
 
-import com.codedisaster.steamworks.*;
+import static com.codedisaster.steamworks.SteamNativeHandle.getNativeHandle;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.codedisaster.steamworks.SteamNativeHandle.getNativeHandle;
+import com.codedisaster.steamworks.SteamFriends;
+import com.codedisaster.steamworks.SteamFriends.PersonaChange;
+import com.codedisaster.steamworks.SteamFriendsCallback;
+import com.codedisaster.steamworks.SteamID;
+import com.codedisaster.steamworks.SteamResult;
 
 public class FriendsMixin {
 
@@ -22,21 +26,11 @@ public class FriendsMixin {
 		}
 
 		@Override
-		public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {
-
-			switch (change) {
-
-				case Name:
-					System.out.println("Persona name received: " +
-							"accountID=" + steamID.getAccountID() +
-							", name='" + friends.getFriendPersonaName(steamID) + "'");
-					break;
-
-				default:
-					System.out.println("Persona state changed (unhandled): " +
-							"accountID=" + steamID.getAccountID() +
-							", change=" + change.name());
-					break;
+		public void onPersonaStateChange(SteamID steamID, int changeFlags) {
+			if (PersonaChange.Name.isSet(changeFlags)) {
+				System.out.println("Persona name received: " +
+							       "accountID=" + steamID.getAccountID() +
+							       ", name='" + friends.getFriendPersonaName(steamID) + "'");
 			}
 		}
 

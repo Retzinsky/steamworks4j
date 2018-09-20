@@ -3,8 +3,6 @@ package com.codedisaster.steamworks;
 @SuppressWarnings("unused")
 class SteamFriendsCallbackAdapter extends SteamCallbackAdapter<SteamFriendsCallback> {
 
-	private static final SteamFriends.PersonaChange[] personaChangeValues = SteamFriends.PersonaChange.values();
-
 	SteamFriendsCallbackAdapter(SteamFriendsCallback callback) {
 		super(callback);
 	}
@@ -13,13 +11,8 @@ class SteamFriendsCallbackAdapter extends SteamCallbackAdapter<SteamFriendsCallb
 		callback.onSetPersonaNameResponse(success, localSuccess, SteamResult.byValue(result));
 	}
 
-	void onPersonaStateChange(long steamID, int changeFlags) {
-		SteamID id = new SteamID(steamID);
-		for (SteamFriends.PersonaChange value : personaChangeValues) {
-			if (SteamFriends.PersonaChange.isSet(value, changeFlags)) {
-				callback.onPersonaStateChange(id, value);
-			}
-		}
+	void onPersonaStateChange(long steamID, int changeFlags) {		
+		callback.onPersonaStateChange(new SteamID(steamID), changeFlags);
 	}
 
 	void onGameOverlayActivated(boolean active) {

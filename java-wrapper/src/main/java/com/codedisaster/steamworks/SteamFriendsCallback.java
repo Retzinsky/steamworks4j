@@ -4,7 +4,7 @@ public interface SteamFriendsCallback {
 
 	void onSetPersonaNameResponse(boolean success, boolean localSuccess, SteamResult result);
 
-	void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change);
+	void onPersonaStateChange(SteamID steamID, int changeFlags);
 
 	void onGameOverlayActivated(boolean active);
 
