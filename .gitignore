@@ -29,3 +29,8 @@ premake5.exe
 # test resources
 steam_appid.txt
 encryptedappticket.key
+/bin/
+
+#eclipse
+.project
+.classpath
